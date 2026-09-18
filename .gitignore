@@ -1,0 +1,19 @@
+# VM disk images and snapshots — too large for git, rebuild from README notes
+*.utm/
+*.qcow2
+*.vdi
+*.vmdk
+*.ova
+*.ovf
+
+# Splunk data/index files
+splunk/var/
+*.log
+
+# OS clutter
+.DS_Store
+Thumbs.db
+
+# Secrets — never commit credentials, even lab ones
+*.env
+credentials*
