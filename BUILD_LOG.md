@@ -84,3 +84,12 @@ run +1h. Newest entries at the bottom.
 - **15:04** — Launched the attack suite (A1–A5) from Kali. The full-port nmap
   scan alone drove Packetbeat ingestion from ~600 to **260k+** flow events in
   Elasticsearch — the port scan is vividly visible in the SIEM.
+- **16:04–16:16** — **All 5 attacks executed and succeeded**, each detected in
+  the SIEM: A1 port scan (65,596 ports), A2 FTP brute force → `msfadmin:msfadmin`
+  (72 flows/port 21), A3 UnrealIRCd backdoor CVE-2010-2075 → shell (25 flows/
+  6667), A4 Samba usermap CVE-2007-2447 → shell (8 flows/445), A5 root bindshell
+  → `uid=0(root)` (30 flows/1524). Evidence in `logs/`. Attack Log + Report
+  updated with real results and pushed.
+- **~16:25** — Kibana confirmed available at `http://192.168.128.1:5601` with the
+  `packetbeat-*` data view and Flows/Overview/HTTP dashboards populated. Lab is
+  fully operational end-to-end: build → attack → detect. **Project core complete.**

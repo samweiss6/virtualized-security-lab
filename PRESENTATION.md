@@ -71,20 +71,22 @@ Both VMs: NO route to the real network/internet (verified)
 ---
 
 ### Slide 8 — Exploitation (mapped to MITRE ATT&CK)
-| Attack | Service | Technique / CVE |
-|---|---|---|
-| FTP brute force | 21 | T1110 |
-| UnrealIRCd backdoor | 6667 | T1190 / CVE-2010-2075 |
-| Samba usermap | 445 | T1190 / CVE-2007-2447 |
-| Root bind shell | 1524 | T1190 / T1059 |
-- [SCREENSHOT: a root shell from one exploit]
+| Attack | Service | Technique / CVE | Result |
+|---|---|---|---|
+| FTP brute force | 21 | T1110 | cracked `msfadmin:msfadmin` |
+| UnrealIRCd backdoor | 6667 | CVE-2010-2075 | **remote shell** |
+| Samba usermap | 445 | CVE-2007-2447 | **remote shell** |
+| Root bind shell | 1524 | T1190 | **instant root** (`uid=0`) |
+- [SCREENSHOT: `uid=0(root)` root shell — logs/a5_bindshell_root.txt]
 
 ---
 
 ### Slide 9 — Detection in the SIEM
 - Packetbeat captures every packet between attacker and target.
-- Each attack is visible in Kibana: the port scan is a **burst of flows to many
-  ports**; exploits are **connections to 6667 / 445 / 1524** plus reverse shells.
+- Every attack is visible in the SIEM (verified via Elasticsearch queries):
+  - Port scan → **65,596 distinct ports** contacted
+  - FTP brute force → **72 flows** to port 21
+  - UnrealIRCd / Samba / bindshell → flows to **6667 / 445 / 1524** + reverse shells
 - [SCREENSHOT: Kibana Network Flows dashboard during attacks]
 
 ---
