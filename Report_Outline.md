@@ -20,7 +20,7 @@ non-technical reader.]
   were in scope.
 - In scope: Metasploitable2 (target, UTM Emulate/x86_64)
 - Attacking system: Kali Linux (UTM Virtualize/ARM64)
-- Monitoring system: Splunk (Docker container on host)
+- Monitoring system: Elasticsearch + Kibana (native darwin-aarch64 on host)
 - Testing window: [dates]
 
 ## 3. Methodology
@@ -41,9 +41,9 @@ One subsection per attack/vulnerability. Repeat this block per finding:
 - **Impact:** [what an attacker could do with this]
 
 ## 5. Detection Summary
-Table mapping each finding to the Splunk search/dashboard that caught it:
+Table mapping each finding to the Kibana search/dashboard that caught it:
 
-| Finding | ATT&CK ID | Detected? | Splunk Search / Dashboard | Evidence |
+| Finding | ATT&CK ID | Detected? | Kibana Search / Dashboard | Evidence |
 |---|---|---|---|---|
 | | | | | |
 

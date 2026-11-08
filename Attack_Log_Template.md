@@ -16,7 +16,7 @@ Report_Outline.md) mostly copy-paste later.
   ```
 - **Result / Output summary:**
 - **Evidence:** [screenshot filename or log path in /screenshots or /logs]
-- **Detected by Splunk?** Y / N — [search/dashboard name if yes]
+- **Detected by Elastic/Kibana?** Y / N — [search/dashboard name if yes]
 - **Notes:**
 
 ---
