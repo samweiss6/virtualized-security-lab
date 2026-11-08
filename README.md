@@ -46,9 +46,28 @@ Decisions and actual values recorded as the lab is built.
 - **Host:** Apple M1, 8 GB RAM, macOS 12.3 (Monterey), ~34 GB free disk.
 - **UTM:** 4.7.5. CLI control via `/Applications/UTM.app/Contents/MacOS/utmctl`
   (not on PATH). Kali VM UUID `66689B96-B3D4-4698-990A-93712C0E82D0`.
-- **Host-only subnet / IPs:** [fill in after first host-only boot — run
-  `ifconfig` for the `vmenet`/`bridge` UTM creates; record gateway + each VM IP]
-- [Add setup steps and decisions here as the lab is built.]
+
+### Kali VM build (2026-11-08)
+- **Network:** set to UTM **Host Only** (`Mode=Host`, isolate-from-host off).
+  DHCP *is* served on the host-only subnet, but the installer reported **no
+  default route** — i.e. the VM gets a local IP yet has **no path to the
+  internet**. That is the isolation we want; chose "continue without a default
+  route" and installed from the ISO offline.
+- **Installer media gotcha:** UTM imported the Kali ISO as a **Disk** (qcow2),
+  not a CD, and defaulted its interface to **USB**. Booting off emulated USB was
+  so slow it looked hung. **Fix: set the installer drive's interface to VirtIO**
+  (UTM Edit → the drive → VirtIO). Boots fast after that.
+- **Display gotcha (important):** this VM's **graphical console never renders
+  the Linux kernel / installer** — GRUB's menu shows, then the screen goes blank
+  ("display output is not active") on both `virtio-gpu-pci` and `virtio-ramfb`.
+  `nomodeset` makes it worse (arm64 has no VGA text fallback). **Workaround: a
+  serial console.** Added a UTM **TCP-Server serial** (port 4321), booted the
+  text installer with kernel args `console=ttyAMA0,115200 DEBIAN_FRONTEND=text`,
+  and drove the whole install over `nc 127.0.0.1 4321`. Kali runs headless;
+  operate it via serial / SSH over the host-only net.
+- **Credentials:** user `kali` / password `kali` (lab-only, isolated host).
+- **Host-only subnet / IPs:** [fill in once Kali is up — `ip a` on Kali over
+  serial; record gateway + each VM IP here.]
 
 ## Attack Log
 See `Attack_Log_Template.md` — entries added chronologically as attacks are
