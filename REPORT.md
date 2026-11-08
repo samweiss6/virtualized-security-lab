@@ -88,15 +88,50 @@ All detections verified via Elasticsearch aggregation queries over `packetbeat-*
 (attack window 2026-11-08 16:04–16:16).
 
 ## 6. Recommendations
-_(Per-finding remediation — patch/retire stale services, disable telnet/rsh,
-remove the bind shell, enforce strong credentials, segment the network. Expanded
-as findings are finalized.)_
+Remediation is ordered by the severity of the finding it addresses. On a real
+host every item below would be a prerequisite to returning the system to service.
+
+| # | Finding | Recommendation | Priority |
+|---|---|---|---|
+| R1 | 4.5 Root bind shell (1524) | Remove the bind shell entirely; it is a backdoor with no legitimate use. Audit `inetd`/`xinetd` and startup scripts for any service granting unauthenticated shells. | **Immediate** |
+| R2 | 4.3 UnrealIRCd / 4.4 Samba RCE | Patch or retire the vulnerable daemons. UnrealIRCd 3.2.8.1 (CVE-2010-2075) and Samba 3.x usermap (CVE-2007-2447) are both fixed in current releases; if the services are not needed, uninstall them. | **Immediate** |
+| R3 | 4.1 Exposed services | Reduce attack surface: disable cleartext/legacy services (telnet, rexec/rlogin/rsh, finger) and close every port without a documented business need. Default-deny at a host firewall. | High |
+| R4 | 4.2 Weak FTP credentials | Enforce strong, unique credentials and lockout; remove default accounts (`msfadmin`). Prefer key-based SFTP over anonymous/password FTP. | High |
+| R5 | All | **Patch management** — the root cause across findings is years-out-of-date software. Establish a regular patch cadence and track installed versions. | High |
+| R6 | All | **Network segmentation & monitoring** — keep exposed services on an isolated segment and keep the kind of flow-level monitoring demonstrated here (Packetbeat → Elastic) in place so exploitation attempts are detected, not just prevented. | Medium |
+
+Metasploitable2 is intentionally vulnerable and is **not** meant to be patched —
+it exists as a safe target. The recommendations above are written as they would
+apply to a production host exhibiting the same findings, which is the point of the
+exercise.
 
 ## 7. Conclusion
-_(Written last — what the project demonstrated and how it ties to the DIS goals:
-hands-on isolated-lab construction, offensive tooling, and SIEM-based detection.)_
+This project met the goals set for the Directed Individual Study. On a single
+resource-constrained Apple-Silicon laptop, it delivered a **fully isolated,
+reproducible security lab** and demonstrated the complete defensive loop:
+build → attack → detect.
+
+- **Lab construction.** An attacker (Kali, ARM64 virtualized) and a deliberately
+  vulnerable target (Metasploitable2, x86_64 emulated) were stood up on a UTM
+  host-only network with **no route to the real LAN or internet** — isolation
+  that was explicitly verified before any attack.
+- **Offensive tooling.** A standard pentest flow — reconnaissance, vulnerability
+  identification, exploitation, and validation — was executed with nmap, hydra,
+  the Metasploit Framework, and netcat, and mapped to **MITRE ATT&CK**. All five
+  planned actions (T1046, T1110, two T1190 RCEs, and a direct root shell)
+  succeeded, culminating in `uid=0(root)` on the target.
+- **Detection.** Every action was captured by Packetbeat and confirmed in the
+  Elastic/Kibana SIEM via aggregation queries over `packetbeat-*` — from the
+  65,596-port scan down to the individual service flows (ports 21, 445, 1524,
+  6667) and the reverse-shell callbacks.
+
+Beyond the results, the real learning was in the **engineering workarounds** the
+platform forced (serial-console install, native ARM Elastic instead of Splunk,
+pristine-disk recovery of the emulated target) — all documented in `BUILD_LOG.md`.
+The lab now serves as a foundation for future work: custom detection rules,
+richer dashboards, and additional attack scenarios.
 
 ## 8. Appendix
-- Lab architecture: see `README.md`.
+- Lab architecture: `diagrams/architecture.svg` (source: `architecture.mmd`); see also `README.md`.
 - Full command logs & tool versions: `logs/`.
 - Build narrative: `BUILD_LOG.md`.

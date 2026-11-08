@@ -1,0 +1,14 @@
+%% Virtualized Security Lab — architecture (editable source for architecture.svg)
+%% Render at https://mermaid.live or with the mermaid CLI.
+flowchart LR
+    subgraph HOST["Host — macOS, Apple Silicon (arm64), 8 GB RAM"]
+        subgraph NET["UTM Host-Only network — 192.168.128.0/24 (no route to LAN/internet)"]
+            KALI["Kali Linux — Attacker<br/>UTM Virtualize · ARM64<br/>192.168.128.2<br/>nmap · hydra · Metasploit · netcat<br/>Packetbeat captures traffic"]
+            M2["Metasploitable2 — Target<br/>UTM Emulate · x86_64<br/>192.168.128.4<br/>23 vulnerable services<br/>FTP · Samba · UnrealIRCd · bindshell :1524"]
+        end
+        SIEM["SIEM — Elasticsearch + Kibana<br/>native darwin-aarch64<br/>host 192.168.128.1:5601<br/>packetbeat-* · Flows/Overview/HTTP"]
+    end
+
+    KALI -- "attacks (recon → exploit)" --> M2
+    KALI -- "captured flows" --> SIEM
+    M2 -. "syslog (optional)" .-> SIEM

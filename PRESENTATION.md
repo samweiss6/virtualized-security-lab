@@ -27,7 +27,7 @@ Samuel Weiss · LIS4905 Directed Individual Study · Fall 2026 · Instructor: Eb
 - **Target:** Metasploitable2 (x86_64) — UTM *Emulate*
 - **SIEM:** Elasticsearch + Kibana, native ARM on the Mac, fed by **Packetbeat**
 - **Network:** UTM **Host-Only** `192.168.128.0/24` — **no route to LAN/internet**
-- [SCREENSHOT: README architecture diagram]
+- [DIAGRAM: diagrams/architecture.svg]
 ```
 Kali (.2) --attacks--> Metasploitable2 (.4)
       \--- traffic captured by Packetbeat ---> Elasticsearch + Kibana (host .1)

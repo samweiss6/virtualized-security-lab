@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="560" viewBox="0 0 940 560" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#b00020"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1565c0"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="470" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#222">Virtualized Security Lab — Architecture</text>
+  <text x="470" y="56" text-anchor="middle" font-size="13" fill="#666">Apple Silicon M1 Mac (8 GB RAM) · UTM · Elastic SIEM · fully isolated</text>
+
+  <!-- Host Mac boundary -->
+  <rect x="30" y="80" width="840" height="440" rx="14" fill="#f7f9fc" stroke="#9aa7b4" stroke-width="2"/>
+  <text x="50" y="106" font-size="14" font-weight="bold" fill="#48566a">Host — macOS (Apple Silicon, arm64)</text>
+
+  <!-- Host-Only network band -->
+  <rect x="60" y="130" width="780" height="300" rx="10" fill="#eef4ff" stroke="#8fb3f0" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="76" y="152" font-size="13" font-weight="bold" fill="#2a4d8f">UTM Host-Only network — 192.168.128.0/24  (NO route to LAN / internet — verified)</text>
+
+  <!-- Kali VM -->
+  <rect x="90" y="180" width="230" height="140" rx="10" fill="#ffffff" stroke="#b00020" stroke-width="2"/>
+  <text x="205" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#b00020">Kali Linux — Attacker</text>
+  <text x="205" y="230" text-anchor="middle" font-size="12" fill="#444">UTM Virtualize · ARM64</text>
+  <text x="205" y="250" text-anchor="middle" font-size="13" font-weight="bold" fill="#222">192.168.128.2</text>
+  <text x="205" y="272" text-anchor="middle" font-size="11" fill="#555">nmap · hydra · Metasploit</text>
+  <text x="205" y="288" text-anchor="middle" font-size="11" fill="#555">netcat · driven via SSH</text>
+  <text x="205" y="308" text-anchor="middle" font-size="11" fill="#555">Packetbeat captures traffic</text>
+
+  <!-- Target VM -->
+  <rect x="580" y="180" width="230" height="140" rx="10" fill="#ffffff" stroke="#8a6d00" stroke-width="2"/>
+  <text x="695" y="208" text-anchor="middle" font-size="14" font-weight="bold" fill="#8a6d00">Metasploitable2 — Target</text>
+  <text x="695" y="230" text-anchor="middle" font-size="12" fill="#444">UTM Emulate · x86_64</text>
+  <text x="695" y="250" text-anchor="middle" font-size="13" font-weight="bold" fill="#222">192.168.128.4</text>
+  <text x="695" y="272" text-anchor="middle" font-size="11" fill="#555">23 open vulnerable services</text>
+  <text x="695" y="288" text-anchor="middle" font-size="11" fill="#555">FTP · Samba · UnrealIRCd</text>
+  <text x="695" y="308" text-anchor="middle" font-size="11" fill="#555">root bindshell :1524</text>
+
+  <!-- Attack arrow -->
+  <line x1="320" y1="235" x2="578" y2="235" stroke="#b00020" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="449" y="226" text-anchor="middle" font-size="12" font-weight="bold" fill="#b00020">attacks (recon → exploit)</text>
+
+  <!-- SIEM box -->
+  <rect x="300" y="360" width="300" height="130" rx="10" fill="#ffffff" stroke="#1565c0" stroke-width="2"/>
+  <text x="450" y="388" text-anchor="middle" font-size="15" font-weight="bold" fill="#1565c0">SIEM — Elasticsearch + Kibana</text>
+  <text x="450" y="410" text-anchor="middle" font-size="12" fill="#444">native darwin-aarch64 on host</text>
+  <text x="450" y="430" text-anchor="middle" font-size="13" font-weight="bold" fill="#222">host 192.168.128.1 : 5601</text>
+  <text x="450" y="452" text-anchor="middle" font-size="11" fill="#555">packetbeat-* data view</text>
+  <text x="450" y="470" text-anchor="middle" font-size="11" fill="#555">Flows / Overview / HTTP dashboards</text>
+
+  <!-- Log flow arrows to SIEM -->
+  <path d="M205,320 L205,420 L298,420" fill="none" stroke="#1565c0" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <text x="150" y="360" text-anchor="middle" font-size="11" fill="#1565c0">captured flows</text>
+
+  <path d="M695,320 L695,440 L602,440" fill="none" stroke="#1565c0" stroke-width="2.5" stroke-dasharray="5 3" marker-end="url(#arrowBlue)"/>
+  <text x="760" y="360" text-anchor="middle" font-size="11" fill="#1565c0">syslog (optional)</text>
+
+  <!-- Footer -->
+  <text x="470" y="512" text-anchor="middle" font-size="11" fill="#777">Flow: Kali attacks Metasploitable2 → Packetbeat mirrors the traffic → Elasticsearch indexes it → analyst reviews detections in Kibana.</text>
+</svg>
