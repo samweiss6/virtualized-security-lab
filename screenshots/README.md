@@ -14,5 +14,9 @@ network — no external IPs appear, which is itself evidence of isolation.
 | `06_overview_errors_latency.png` | Overview — Errors / latency | Error + latency spikes at 15:00–15:30 as the exploits (A3–A5) hit services. |
 | `07_discover_destination_ports.png` | Discover — `destination.port` field | Port spread across the scan (**"Other" = 90.4%** of 5,000 samples); attacked service ports 21/80/139/1524/6667 visible. |
 
-Terminal evidence (root shell, credential crack) is text in `../logs/`
-(`a5_bindshell_root.txt`, `a2_hydra_ftp.txt`); screenshots of it may be added later.
+Terminal evidence (captured from the Kali attacker; raw text also in `../logs/`):
+
+| File | Attack | What it shows |
+|---|---|---|
+| `08_terminal_root_shell.png` | A5 — root bindshell (1524) | `uid=0(root)` on Metasploitable2 (kernel 2.6.24) — **full compromise**. |
+| `09_terminal_hydra_crack.png` | A2 — FTP brute force | hydra recovered `msfadmin:msfadmin` on port 21. |

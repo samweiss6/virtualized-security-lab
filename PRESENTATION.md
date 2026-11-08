@@ -79,7 +79,8 @@ Both VMs: NO route to the real network/internet (verified)
 | UnrealIRCd backdoor | 6667 | CVE-2010-2075 | **remote shell** |
 | Samba usermap | 445 | CVE-2007-2447 | **remote shell** |
 | Root bind shell | 1524 | T1190 | **instant root** (`uid=0`) |
-- [SCREENSHOT: `uid=0(root)` root shell — logs/a5_bindshell_root.txt]
+- [IMAGE: screenshots/08_terminal_root_shell.png — `uid=0(root)` root shell]
+- [IMAGE: screenshots/09_terminal_hydra_crack.png — cracked `msfadmin:msfadmin`]
 
 ---
 

@@ -52,7 +52,7 @@ was validated by querying the `packetbeat-*` indices in Elasticsearch/Kibana.
 - **Severity:** High — weak, guessable credentials on an exposed service.
 - **Description/Result:** `hydra` recovered valid FTP credentials
   **`msfadmin` / `msfadmin`** on port 21.
-- **Evidence:** `logs/a2_hydra_ftp.txt`
+- **Evidence:** `logs/a2_hydra_ftp.txt`; `screenshots/09_terminal_hydra_crack.png`
 - **Impact:** Authenticated access; foothold for further compromise.
 
 ### 4.3 UnrealIRCd 3.2.8.1 Backdoor — CVE-2010-2075 (T1190)  ✅
@@ -72,7 +72,7 @@ was validated by querying the `packetbeat-*` indices in Elasticsearch/Kibana.
 - **Severity:** Critical — direct root shell, no exploit required.
 - **Description/Result:** `nc 192.168.128.4 1524` yielded an immediate **root**
   shell: `uid=0(root) gid=0(root)` on kernel 2.6.24.
-- **Evidence:** `logs/a5_bindshell_root.txt`
+- **Evidence:** `logs/a5_bindshell_root.txt`; `screenshots/08_terminal_root_shell.png`
 - **Impact:** Full system compromise.
 
 ## 5. Detection Summary
