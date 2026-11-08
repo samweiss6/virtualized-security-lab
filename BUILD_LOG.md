@@ -56,3 +56,11 @@ run +1h. Newest entries at the bottom.
   Packetbeat 8.18.2 (arm64) to sniff the host-only interface into Elasticsearch.
 - **11:39** — Kibana still initializing (first-start bundle optimization, slow
   under tight RAM). Build log created.
+- **11:45** — Elasticsearch went **red**: its disk-allocation watermark read the
+  APFS container as 92.5% full (macOS reports only ~17 GB usable against the
+  228 GB container), blocking shard allocation and hanging Kibana. Disabled the
+  disk threshold decider (lab-safe, persisted to `elasticsearch.yml`) → ES
+  **green**, Kibana **available** at `http://192.168.128.1:5601`.
+- **11:50** — Loaded Packetbeat index templates + prebuilt dashboards into
+  Kibana. Decided to run Packetbeat **on Kali** (sniffing eth0) rather than the
+  Mac, to avoid a host sudo prompt and keep Mac RAM for ES/Kibana.
