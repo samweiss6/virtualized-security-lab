@@ -93,3 +93,9 @@ run +1h. Newest entries at the bottom.
 - **~16:25** — Kibana confirmed available at `http://192.168.128.1:5601` with the
   `packetbeat-*` data view and Flows/Overview/HTTP dashboards populated. Lab is
   fully operational end-to-end: build → attack → detect. **Project core complete.**
+- **~16:45** — Built an 11-slide presentation deck (title → goal → architecture →
+  decisions → challenges → recon → exploitation → detection → mapping → results →
+  lessons), populated with the real results. Private artifact:
+  https://claude.ai/artifact/5LswQWg4KNjaCuxf7rNFM1 . Content also in
+  PRESENTATION.md. Remaining for final polish: drop in Kibana dashboard
+  screenshots (links in chat), expand report recommendations/conclusion.

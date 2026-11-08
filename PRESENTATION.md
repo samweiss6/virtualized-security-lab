@@ -1,4 +1,6 @@
 # Presentation — Virtualized Security Lab
+
+**Rendered deck (private artifact):** https://claude.ai/artifact/5LswQWg4KNjaCuxf7rNFM1
 *LIS4905 DIS · Samuel Weiss · slide-by-slide content (drop into PowerPoint/
 Google Slides, or I can render an HTML/PPTX deck). Bracketed [SCREENSHOT: …]
 notes mark where lab/Kibana images go.*
