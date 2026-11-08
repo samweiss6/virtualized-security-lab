@@ -99,3 +99,7 @@ run +1h. Newest entries at the bottom.
   https://claude.ai/artifact/5LswQWg4KNjaCuxf7rNFM1 . Content also in
   PRESENTATION.md. Remaining for final polish: drop in Kibana dashboard
   screenshots (links in chat), expand report recommendations/conclusion.
+- **~17:00** — Paused the lab cleanly for a slow machine: shut down M2 (root
+  bindshell) and Kali (ssh poweroff) gracefully, stopped Elasticsearch + Kibana.
+  Both VMs confirmed stopped. Added `RESUME.md`. Nothing corrupted; resume is a
+  few commands.
