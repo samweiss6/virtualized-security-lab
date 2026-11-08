@@ -66,8 +66,28 @@ Decisions and actual values recorded as the lab is built.
   and drove the whole install over `nc 127.0.0.1 4321`. Kali runs headless;
   operate it via serial / SSH over the host-only net.
 - **Credentials:** user `kali` / password `kali` (lab-only, isolated host).
-- **Host-only subnet / IPs:** [fill in once Kali is up — `ip a` on Kali over
-  serial; record gateway + each VM IP here.]
+- **The installed system boots over serial too** — removing the installer disk
+  (so UEFI boots the real disk) revealed the installer had already propagated the
+  serial console: `kali login:` appears on `ttyAMA0` (TCP port 4321). Kernel
+  6.19 arm64.
+- **Access:** SSH enabled on Kali (`sudo systemctl enable --now ssh`); key-based
+  login from the Mac via `ssh -i ~/.ssh/kali_lab kali@192.168.128.2`. Serial on
+  port 4321 kept as console fallback.
+
+### Host-only network (verified 2026-11-08)
+| Node | Interface | IP |
+|---|---|---|
+| Host Mac (gateway) | `bridge100` | `192.168.128.1` |
+| Kali (attacker) | `eth0` | `192.168.128.2` |
+| Metasploitable2 (target) | tbd | `192.168.128.x` (pending) |
+
+Subnet `192.168.128.0/24`. DHCP is served on it, but there is **no default
+route** — verified from Kali that `curl https://example.com` fails
+(NO_INTERNET), so the lab cannot reach the real LAN or the internet. Elastic/
+Kibana will bind to `192.168.128.1` + localhost only.
+
+**Installed Kali tools confirmed:** nmap, metasploit-framework (msfconsole),
+hydra, sqlmap, nikto.
 
 ## Attack Log
 See `Attack_Log_Template.md` — entries added chronologically as attacks are
