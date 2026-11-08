@@ -5,7 +5,7 @@ to attack from, and an Elastic/Kibana SIEM to monitor and detect the attacks,
 built on an Apple Silicon Mac.
 
 ## Overview
-[1–2 sentence summary — fill in once the lab is built]
+An isolated UTM host-only lab on an Apple-Silicon Mac: Kali Linux (ARM64, attacker) and Metasploitable2 (x86_64, target) with no route to the real LAN/internet, monitored by a native Elasticsearch + Kibana SIEM fed by Packetbeat. Attacks are run from Kali against the target and detected in Kibana.
 
 ## Lab Architecture
 - **Attacker:** Kali Linux (ARM64) — UTM, Virtualize mode
