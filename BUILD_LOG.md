@@ -64,3 +64,14 @@ run +1h. Newest entries at the bottom.
 - **11:50** — Loaded Packetbeat index templates + prebuilt dashboards into
   Kibana. Decided to run Packetbeat **on Kali** (sniffing eth0) rather than the
   Mac, to avoid a host sudo prompt and keep Mac RAM for ES/Kibana.
+- **11:51** — Deployed **Packetbeat on Kali** (sniffing eth0 → ES at
+  `192.168.128.1:9200`). Confirmed live capture: `packetbeat-*` index filling
+  (flows + icmp events). SIEM pipeline end-to-end working.
+- **~11:55** — Stopped M2 earlier to free RAM for Kibana init; restarted it for
+  the attack phase. M2 slow to boot under CPU contention (ES+Kibana+Kali+M2 all
+  emulating/running on an 8 GB M1). Stopped Kibana temporarily to give M2 CPU;
+  will restart Kibana (fast now, cache built) for dashboard review after attacks.
+- Prepared a documented attack suite (Kali→M2), each mapped to MITRE ATT&CK:
+  A1 service discovery (T1046), A2 FTP brute force (T1110), A3 UnrealIRCd
+  backdoor (T1190/CVE-2010-2075), A4 Samba usermap (CVE-2007-2447), A5 root
+  bindshell on 1524. Ready to run once M2 is reachable; all captured by the SIEM.
