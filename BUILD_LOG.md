@@ -75,3 +75,12 @@ run +1h. Newest entries at the bottom.
   A1 service discovery (T1046), A2 FTP brute force (T1110), A3 UnrealIRCd
   backdoor (T1190/CVE-2010-2075), A4 Samba usermap (CVE-2007-2447), A5 root
   bindshell on 1524. Ready to run once M2 is reachable; all captured by the SIEM.
+- **~14:30–15:00** — Metasploitable2 would not finish booting (forced stops had
+  dirtied its ext3 disk → endless fsck under slow single-core emulation, >1h at
+  ~130% CPU). **Fix:** force-cleared the stuck VM and swapped the dirtied vmdk
+  for the **pristine original copy** → clean boot in **~60 s**, auto-DHCP to
+  `192.168.128.4`. Lesson: never force-stop the emulated target; clean shutdown
+  only. ES restarted; Packetbeat restarted on Kali.
+- **15:04** — Launched the attack suite (A1–A5) from Kali. The full-port nmap
+  scan alone drove Packetbeat ingestion from ~600 to **260k+** flow events in
+  Elasticsearch — the port scan is vividly visible in the SIEM.
