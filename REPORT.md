@@ -9,7 +9,7 @@
 > dashboard screenshots in `screenshots/` (indexed in `screenshots/README.md`).
 
 ## 1. Executive Summary
-_(Written last.)_ This project built a fully isolated virtualization lab on an
+This project built a fully isolated virtualization lab on an
 Apple-Silicon Mac to safely practice offensive security and validate that an
 Elastic/Kibana SIEM detects the activity. An attacker VM (Kali Linux) was used
 to enumerate and exploit a deliberately vulnerable target (Metasploitable2) on a
