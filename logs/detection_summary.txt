@@ -1,0 +1,10 @@
+Detection Summary — SIEM (Elasticsearch/Kibana via Packetbeat on Kali eth0)
+Attack window: 2026-11-08 16:04–16:16 (Eastern). Source Kali 192.168.128.2 -> M2 192.168.128.4
+
+A1  Port scan (T1046)        : 65,596 distinct destination ports contacted (full -p- scan).
+A2  FTP brute force (T1110)  : 72 flow events to port 21 (burst of repeated FTP connections).
+A3  UnrealIRCd (CVE-2010-2075): 25 flow events to port 6667 + reverse shell flow to Kali:4444.
+A4  Samba usermap (CVE-2007-2447): 8 flow events to port 445 + reverse shell flow to Kali:4445.
+A5  Root bindshell (T1190)   : 30 flow events to the unusual port 1524 (direct root shell).
+
+All verified with Elasticsearch aggregation queries against packetbeat-*.

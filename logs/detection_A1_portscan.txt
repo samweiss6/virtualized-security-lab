@@ -1,0 +1,8 @@
+Detection A1 — Network Service Discovery / Port Scan (MITRE T1046)
+Source: Elasticsearch packetbeat-* (Packetbeat on Kali eth0)
+Query: flows where source.ip=192.168.128.2 (Kali) AND destination.ip=192.168.128.4 (M2)
+Result: 65,596 distinct destination ports contacted in a short window.
+Interpretation: A single host contacting tens of thousands of distinct ports on
+another host in seconds is an unambiguous port-scan signature. Ports were hit
+sequentially (1,2,3,4,5,...), consistent with nmap -p- full TCP scan.
+Captured 2026-11-08 15:07 CST.

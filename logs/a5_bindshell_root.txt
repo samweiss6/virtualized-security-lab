@@ -1,0 +1,4 @@
+root@metasploitable:/# uid=0(root) gid=0(root) groups=0(root)
+Linux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux
+metasploitable
+root@metasploitable:/# 

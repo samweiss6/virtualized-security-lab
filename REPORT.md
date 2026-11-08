@@ -4,8 +4,9 @@
 **Instructor:** Ebrahim Randeree
 **Date:** 2026-11-08 (working draft)
 
-> Working draft. Findings A2–A5 and the Detection Summary screenshots are filled
-> as attacks are executed; see `Attack_Log.md` for the live log.
+> All five attacks executed and detected (2026-11-08). Live log in
+> `Attack_Log.md`; detection data in `logs/detection_summary.txt`. Kibana
+> dashboard screenshots to be attached for the final version.
 
 ## 1. Executive Summary
 _(Written last.)_ This project built a fully isolated virtualization lab on an
@@ -47,19 +48,44 @@ was validated by querying the `packetbeat-*` indices in Elasticsearch/Kibana.
 - **Impact:** Each stale service is a candidate for exploitation; several have
   well-known remote-code-execution vulnerabilities (see 4.2–4.5).
 
-### 4.2 FTP Brute Force (T1110)  ⏳ pending execution
-### 4.3 UnrealIRCd 3.2.8.1 Backdoor — CVE-2010-2075 (T1190)  ⏳ pending execution
-### 4.4 Samba usermap_script — CVE-2007-2447 (T1190)  ⏳ pending execution
-### 4.5 Exposed Root Bind Shell on 1524 (T1190/T1059)  ⏳ pending execution
+### 4.2 FTP Brute Force (T1110)  ✅
+- **Severity:** High — weak, guessable credentials on an exposed service.
+- **Description/Result:** `hydra` recovered valid FTP credentials
+  **`msfadmin` / `msfadmin`** on port 21.
+- **Evidence:** `logs/a2_hydra_ftp.txt`
+- **Impact:** Authenticated access; foothold for further compromise.
+
+### 4.3 UnrealIRCd 3.2.8.1 Backdoor — CVE-2010-2075 (T1190)  ✅
+- **Severity:** Critical — unauthenticated remote code execution.
+- **Description/Result:** The backdoored UnrealIRCd on 6667 executed attacker
+  commands; a reverse shell opened (`192.168.128.2:4444 → .4:50090`).
+- **Evidence:** `logs/a3_unrealircd.txt`
+- **Impact:** Remote code execution on the target.
+
+### 4.4 Samba usermap_script — CVE-2007-2447 (T1190)  ✅
+- **Severity:** Critical — unauthenticated RCE via username-map command injection.
+- **Description/Result:** Reverse shell opened (`192.168.128.2:4445 → .4:34697`).
+- **Evidence:** `logs/a4_samba.txt`
+- **Impact:** Remote code execution (Samba runs as root on this host).
+
+### 4.5 Exposed Root Bind Shell on 1524 (T1190/T1059)  ✅
+- **Severity:** Critical — direct root shell, no exploit required.
+- **Description/Result:** `nc 192.168.128.4 1524` yielded an immediate **root**
+  shell: `uid=0(root) gid=0(root)` on kernel 2.6.24.
+- **Evidence:** `logs/a5_bindshell_root.txt`
+- **Impact:** Full system compromise.
 
 ## 5. Detection Summary
-| Finding | ATT&CK ID | Detected? | Kibana Search / Dashboard | Evidence |
+| Finding | ATT&CK ID | Detected? | Kibana / ES signal | Evidence |
 |---|---|---|---|---|
-| 4.1 Service discovery | T1046 | ✅ | `type:flow` burst, many dports from .2→.4 | _screenshot pending_ |
-| 4.2 FTP brute force | T1110 | ⏳ | repeated FTP flows to port 21 | _pending_ |
-| 4.3 UnrealIRCd backdoor | T1190 | ⏳ | flow to 6667 + reverse shell to .2 | _pending_ |
-| 4.4 Samba usermap | T1190 | ⏳ | SMB flow to 445 + reverse shell | _pending_ |
-| 4.5 Root bindshell | T1190 | ⏳ | flow to unusual port 1524 | _pending_ |
+| 4.1 Service discovery | T1046 | ✅ | **65,596 distinct dest ports** .2→.4 | `logs/detection_A1_portscan.txt` |
+| 4.2 FTP brute force | T1110 | ✅ | **72 flows** to port 21 (burst) | `logs/detection_summary.txt` |
+| 4.3 UnrealIRCd backdoor | T1190 | ✅ | **25 flows** to 6667 + reverse shell | `logs/detection_summary.txt` |
+| 4.4 Samba usermap | T1190 | ✅ | **8 flows** to 445 + reverse shell | `logs/detection_summary.txt` |
+| 4.5 Root bindshell | T1190 | ✅ | **30 flows** to unusual port 1524 | `logs/detection_summary.txt` |
+
+All detections verified via Elasticsearch aggregation queries over `packetbeat-*`
+(attack window 2026-11-08 16:04–16:16).
 
 ## 6. Recommendations
 _(Per-finding remediation — patch/retire stale services, disable telnet/rsh,
