@@ -79,7 +79,7 @@ Decisions and actual values recorded as the lab is built.
 |---|---|---|
 | Host Mac (gateway) | `bridge100` | `192.168.128.1` |
 | Kali (attacker) | `eth0` | `192.168.128.2` |
-| Metasploitable2 (target) | tbd | `192.168.128.x` (pending) |
+| Metasploitable2 (target) | `eth0` | `192.168.128.4` |
 
 Subnet `192.168.128.0/24`. DHCP is served on it, but there is **no default
 route** — verified from Kali that `curl https://example.com` fails
