@@ -90,12 +90,23 @@ Kibana will bind to `192.168.128.1` + localhost only.
 hydra, sqlmap, nikto.
 
 ## Attack Log
-See `Attack_Log_Template.md` — entries added chronologically as attacks are
-run.
+See **`Attack_Log.md`** — A1 recon + A2–A5 exploits, all executed 2026-11-08
+and detected in the SIEM (format per `Attack_Log_Template.md`).
 
 ## Detections
-[Kibana searches/dashboards built for each attack, with screenshots]
+All five attacks were confirmed in Elastic/Kibana over `packetbeat-*`. Kibana
+dashboard + terminal screenshots are in **`screenshots/`** (captions in
+`screenshots/README.md`); aggregation results in `logs/detection_summary.txt`.
+Mapping table: `REPORT.md` §5.
 
 ## Report
-See `Report_Outline.md` for the report skeleton; final report linked here
-once written.
+See **`REPORT.md`** — full penetration-test & detection report (findings,
+detection summary, recommendations, conclusion). `Report_Outline.md` holds the
+original skeleton.
+
+## Presentation
+- **`Virtualized_Security_Lab.pptx`** — 13-slide deck (icons + real screenshots).
+- **`Attack_Replay_3D.html`** — animated three.js replay (Recon → Exploit →
+  Detect); also a private Artifact (link in `BUILD_LOG.md`). Needs internet.
+- **`Speaker_Notes.txt`** — per-slide talking points + Q&A prep.
+- **`diagrams/architecture.svg`** — lab topology diagram.
