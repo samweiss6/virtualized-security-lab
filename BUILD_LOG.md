@@ -103,3 +103,15 @@ run +1h. Newest entries at the bottom.
   bindshell) and Kali (ssh poweroff) gracefully, stopped Elasticsearch + Kibana.
   Both VMs confirmed stopped. Added `RESUME.md`. Nothing corrupted; resume is a
   few commands.
+
+## 2026-11-08 (later) — SIEM screenshots captured
+- Resumed Elasticsearch + Kibana (bound to `127.0.0.1` via CLI overrides so no VM
+  was needed — host-only `.1` iface is only up while a VM runs). ES green,
+  **265,316** packetbeat docs intact; detection aggregations re-verified and match
+  the report exactly (65,596 distinct ports; 72/8/30/25 flows to 21/445/1524/6667).
+- Captured **7 Kibana screenshots** into `screenshots/` (indexed in
+  `screenshots/README.md`): Flows connections spike (~65k), host-traffic table
+  (isolation), top source/dest, Overview transaction types (~260k), errors/latency,
+  and the Discover `destination.port` spread. Wired into REPORT.md §5.1 and the deck.
+- Outstanding: two terminal screenshots (root shell, hydra crack) — text already in
+  `logs/`. Lab to be shut down cleanly after.

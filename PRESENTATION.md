@@ -89,13 +89,15 @@ Both VMs: NO route to the real network/internet (verified)
   - Port scan → **65,596 distinct ports** contacted
   - FTP brute force → **72 flows** to port 21
   - UnrealIRCd / Samba / bindshell → flows to **6667 / 445 / 1524** + reverse shells
-- [SCREENSHOT: Kibana Network Flows dashboard during attacks]
+- [IMAGE: screenshots/01_flows_connections_portscan_spike.png — ~65k-flow spike]
+- [IMAGE: screenshots/05_overview_transaction_types.png — ~260k flow events]
 
 ---
 
 ### Slide 10 — Finding ↔ Detection Mapping
 - One-to-one table: every attack → the Kibana query/panel that caught it.
-- [SCREENSHOT: Kibana Discover filtered to the attack window]
+- [IMAGE: screenshots/07_discover_destination_ports.png — port spread, attacked services]
+- [IMAGE: screenshots/02_flows_host_traffic_isolation.png — only .1/.2/.4 → isolation]
 - *(full table in REPORT.md §5)*
 
 ---

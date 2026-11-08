@@ -5,8 +5,8 @@
 **Date:** 2026-11-08 (working draft)
 
 > All five attacks executed and detected (2026-11-08). Live log in
-> `Attack_Log.md`; detection data in `logs/detection_summary.txt`. Kibana
-> dashboard screenshots to be attached for the final version.
+> `Attack_Log.md`; detection data in `logs/detection_summary.txt`; Kibana
+> dashboard screenshots in `screenshots/` (indexed in `screenshots/README.md`).
 
 ## 1. Executive Summary
 _(Written last.)_ This project built a fully isolated virtualization lab on an
@@ -86,6 +86,15 @@ was validated by querying the `packetbeat-*` indices in Elasticsearch/Kibana.
 
 All detections verified via Elasticsearch aggregation queries over `packetbeat-*`
 (attack window 2026-11-08 16:04–16:16).
+
+### 5.1 Figures (Kibana)
+Screenshots are in `screenshots/` (captions in `screenshots/README.md`):
+- **Fig. 1** — `01_flows_connections_portscan_spike.png`: the ~65,000-flow spike (A1 port scan).
+- **Fig. 2** — `02_flows_host_traffic_isolation.png`: attacker→target traffic; only `.1/.2/.4` present (isolation).
+- **Fig. 3–4** — `03_flows_top_source_attacker.png`, `04_flows_top_dest_target.png`: spike sourced from `.2`, received by `.4`.
+- **Fig. 5** — `05_overview_transaction_types.png`: ~260,000 flow events during the window.
+- **Fig. 6** — `06_overview_errors_latency.png`: error/latency spikes as exploits hit services.
+- **Fig. 7** — `07_discover_destination_ports.png`: port spread + attacked service ports (21/80/139/1524/6667).
 
 ## 6. Recommendations
 Remediation is ordered by the severity of the finding it addresses. On a real
