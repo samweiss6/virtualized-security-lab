@@ -115,3 +115,15 @@ run +1h. Newest entries at the bottom.
   and the Discover `destination.port` spread. Wired into REPORT.md §5.1 and the deck.
 - Outstanding: two terminal screenshots (root shell, hydra crack) — text already in
   `logs/`. Lab to be shut down cleanly after.
+
+## 2026-11-08 (later) — Presentation package built
+- Themed icons (SVG→PNG via sharp) in `diagrams/icons/`: evil-penguin Kali,
+  band-aided vulnerable target, SIEM watching-eye, blocked-internet cloud.
+- `Virtualized_Security_Lab.pptx` — 13-slide deck for senior IT students: plain-
+  language explanations, the themed icons, simple diagrams, and all 9 real
+  screenshots embedded. Built with pptxgenjs; validate.py passes.
+- `Attack_Replay_3D.html` — three.js animated 3D scene (also a private Artifact:
+  https://claude.ai/artifact/BBffn27Y1PEQHctDxTCxcj ) that plays the attack live:
+  Recon → Exploit → Detect, with the evil penguin firing packets at the target
+  and the SIEM eye capturing them. Needs internet (loads three.js from CDN).
+- `Speaker_Notes.txt` — per-slide talking points + Q&A prep.
