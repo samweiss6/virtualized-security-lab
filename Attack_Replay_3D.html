@@ -120,7 +120,7 @@ const TEX = { penguin:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAY
   const renderer = new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x060b16, 0.030);
+  scene.fog = new THREE.FogExp2(0x060b16, 0.014);
 
   const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 200);
   const TARGET = new THREE.Vector3(0,1.6,0);
@@ -359,12 +359,17 @@ const TEX = { penguin:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAY
     eye.scale.setScalar(3.0*pulse);
     pedK.ring.material.color.setHex(COL.kali);
 
-    // camera: auto-orbit (unless user dragged) + gentle bob
+    // camera: auto-orbit (unless user dragged) + gentle bob.
+    // Pull back far enough that the whole scene fits at ANY aspect ratio.
     if(!reduce && !dragging) userAz += dt*0.12;
-    const radius=14.5, cy=4.4 + Math.sin(now*0.0004)*0.5;
-    const a=0.7+userAz;
-    camera.position.set(Math.sin(a)*radius, cy + el*6, Math.cos(a)*radius);
-    camera.lookAt(TARGET);
+    const halfTan = Math.tan((camera.fov*Math.PI/180)/2);
+    const SCENE_W = 9.4, SCENE_H = 5.0;            // half-extents to keep in frame
+    const fit = Math.max(SCENE_H/halfTan, SCENE_W/(halfTan*camera.aspect));
+    const radius = Math.min(fit + 4.0, 30);         // + depth margin, capped for tiny screens
+    const cy = 5.0 + Math.sin(now*0.0004)*0.4;
+    const a = 0.7 + userAz;
+    camera.position.set(Math.sin(a)*radius, cy + el*4.5, Math.cos(a)*radius);
+    camera.lookAt(0, 2.6, -0.5);
 
     renderer.render(scene,camera);
     requestAnimationFrame(frame);
