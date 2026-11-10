@@ -70,7 +70,7 @@ const TEX = { penguin:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAY
     glow.position.set(x,0.02,z); scene.add(glow);
     return {ring,glow};
   }
-  const KALI_POS=new THREE.Vector3(-6,1.7,0), TGT_POS=new THREE.Vector3(6,1.7,0), EYE_POS=new THREE.Vector3(0,5.2,-4);
+  const KALI_POS=new THREE.Vector3(-5,1.7,0), TGT_POS=new THREE.Vector3(5,1.7,0), EYE_POS=new THREE.Vector3(0,5.0,-4);
   const penguin=billboard(TEX.penguin,3.2,KALI_POS.x,KALI_POS.y,KALI_POS.z);
   const server =billboard(TEX.server,3.0,TGT_POS.x,TGT_POS.y,TGT_POS.z);
   const eye    =billboard(TEX.eye,3.0,EYE_POS.x,EYE_POS.y,EYE_POS.z);
@@ -147,15 +147,15 @@ const TEX = { penguin:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAY
     const detect=ph===3;
     eye.scale.setScalar(3.0*(detect?1+Math.sin(now*0.01)*0.1:1));
 
-    // CENTERED, near-level front view — auto-fit to the window; drag eases back to centre
+    // CENTERED, near-level front view — fit the NEAR actors (z=0) with margin; drag eases back
     if(!dragging) userAz *= 0.90;
     const sway=userAz;
     const halfTan=Math.tan((camera.fov*Math.PI/180)/2);
-    const SCENE_W=9.2, SCENE_H=4.4;                 // half-extents to keep in frame
-    const fit=Math.max(SCENE_H/halfTan, SCENE_W/(halfTan*camera.aspect));
-    const radius=Math.min(fit+3.5,28);
-    camera.position.set(Math.sin(sway)*radius, 4.0, Math.cos(sway)*radius);
-    camera.lookAt(0, 2.7, -1.2);
+    // actors span x +/-6.6 and y 0..6.6 — frame them generously so nothing touches an edge
+    const HALF_W=8.4, HALF_H=5.6;                   // required half-extents (incl. margin)
+    const radius=Math.max(HALF_W/(halfTan*camera.aspect), HALF_H/halfTan)+3.0;
+    camera.position.set(Math.sin(sway)*radius, 4.3, Math.cos(sway)*radius);
+    camera.lookAt(0, 3.0, -1.2);
 
     renderer.render(scene,camera);
     requestAnimationFrame(frame);
