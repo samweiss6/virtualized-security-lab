@@ -9,6 +9,20 @@
  Tip: open the 3D replay full-screen BEFORE you start (have the tab ready).
 ===========================================================================
 
+---------------------------------------------------------------------------
+ 15-SECOND INTRO LINE (say this while the 3D replay plays on screen)
+---------------------------------------------------------------------------
+ "This is my whole lab in motion. The penguin on the left is Kali — my
+  attacker. On the right is the vulnerable target. Kali fires off attacks,
+  and every packet streams up to the SIEM — the eye — which records all of
+  it. That's build, attack, detect, in one loop."
+
+ ~10-second version if you're pressed:
+ "Left is my attacker, right is the vulnerable target, up top is the SIEM
+  watching. The attacker fires, the SIEM catches every packet — build,
+  attack, detect."
+===========================================================================
+
 SLIDE 1 — TITLE
 - Hi, I'm Sam. This is my directed study project: a virtual security lab.
 - The one-line version: I built a safe place to attack a computer, and I
