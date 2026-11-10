@@ -147,16 +147,15 @@ const TEX = { penguin:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAY
     const detect=ph===3;
     eye.scale.setScalar(3.0*(detect?1+Math.sin(now*0.01)*0.1:1));
 
-    // CENTERED front view: gentle symmetric sway around the front, auto-fit to window
-    if(!reduce && !dragging) userAz *= 0.985; // ease any drag back toward centre
-    const sway=(reduce?0:Math.sin(now*0.00018)*0.22)+userAz;
+    // CENTERED, near-level front view — auto-fit to the window; drag eases back to centre
+    if(!dragging) userAz *= 0.90;
+    const sway=userAz;
     const halfTan=Math.tan((camera.fov*Math.PI/180)/2);
-    const SCENE_W=9.4, SCENE_H=5.0;
+    const SCENE_W=9.2, SCENE_H=4.4;                 // half-extents to keep in frame
     const fit=Math.max(SCENE_H/halfTan, SCENE_W/(halfTan*camera.aspect));
-    const radius=Math.min(fit+4.0,30);
-    const cy=4.7+Math.sin(now*0.0004)*0.35;
-    camera.position.set(Math.sin(sway)*radius, cy+el*4.5, Math.cos(sway)*radius);
-    camera.lookAt(0,2.8,-0.5);
+    const radius=Math.min(fit+3.5,28);
+    camera.position.set(Math.sin(sway)*radius, 4.0, Math.cos(sway)*radius);
+    camera.lookAt(0, 2.7, -1.2);
 
     renderer.render(scene,camera);
     requestAnimationFrame(frame);
