@@ -120,7 +120,7 @@ const TEX = { penguin:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAY
 
   // (camera is static and centered — no drag/sway, so the scene can never drift off-centre)
 
-  function resize(){ const w=innerWidth,h=innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+  function resize(){ const w=innerWidth,h=innerHeight; renderer.setSize(w,h); camera.aspect=w/h; camera.updateProjectionMatrix(); }
   addEventListener("resize",resize); resize();
 
   let last=performance.now();
