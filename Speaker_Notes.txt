@@ -102,6 +102,10 @@ SLIDE 8 — STEP 2: EXPLOITATION
 SLIDE 9 — PROOF: WE BECAME ROOT
 - This is real output from the attack, not a diagram.
 - Top: "uid=0(root)" — that's complete control of the target machine.
+  - WHY it means complete control (if asked): uid=0 is "root," the superuser.
+    The kernel skips permission checks for root, so it can read/change/delete any
+    file, control every service, add or delete users, and even wipe the logs that
+    would show the attack. Nothing higher to escalate to — the box is fully owned.
 - Bottom: hydra cracking the FTP login, msfadmin / msfadmin, in seconds.
 - This is the evidence an industry pentest report would include.
 
