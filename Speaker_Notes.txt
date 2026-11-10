@@ -1,6 +1,7 @@
 ===========================================================================
  VIRTUALIZED SECURITY LAB — SPEAKER NOTES
- Deck: Virtualized_Security_Lab.pptx   (13 slides)
+ Deck (8 slides, instructor limit): Virtualized_Security_Lab_8slide.pptx
+ Deck (13-slide extended/backup):   Virtualized_Security_Lab.pptx
  Live 3D replay: https://claude.ai/artifact/BBffn27Y1PEQHctDxTCxcj
  Samuel Weiss · LIS4905 DIS · Fall 2026
 ---------------------------------------------------------------------------
@@ -21,6 +22,23 @@
  "Left is my attacker, right is the vulnerable target, up top is the SIEM
   watching. The attacker fires, the SIEM catches every packet — build,
   attack, detect."
+===========================================================================
+ 8-SLIDE DECK — which notes to use for each slide
+---------------------------------------------------------------------------
+ The detailed per-slide notes below were written for the 13-slide deck; the
+ 8-slide deck merges some of them. Map each 8-slide to these sections:
+   8-slide 1  Title ................. use SLIDE 1
+   8-slide 2  The big idea .......... use SLIDE 2 (+ one line from SLIDE 3: "8 GB
+              laptop, so no Splunk — native Elastic instead")
+   8-slide 3  How it's wired/sealed . use SLIDE 4 + SLIDE 5 (architecture + why
+              isolation matters)
+   8-slide 4  Recon -> break in ..... use SLIDE 7 + SLIDE 8 (recon stat, then the
+              four ways in)
+   8-slide 5  Proof: root ........... use SLIDE 9
+   8-slide 6  The SIEM sees it all .. use SLIDE 10
+   8-slide 7  Attack -> detection ... use SLIDE 12 + SLIDE 11 (mapping table, then
+              "only lab IPs appeared = isolation proven")
+   8-slide 8  Results & next ........ use SLIDE 13
 ===========================================================================
 
 SLIDE 1 — TITLE

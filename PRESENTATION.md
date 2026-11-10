@@ -1,6 +1,7 @@
 # Presentation — Virtualized Security Lab
 
-**Rendered deck:** `Virtualized_Security_Lab.pptx` (13 slides, icons + screenshots embedded)
+**Deck (8 slides — meets the instructor's limit):** `Virtualized_Security_Lab_8slide.pptx`
+**Deck (13-slide extended / backup):** `Virtualized_Security_Lab.pptx`
 **Live 3D replay (play during the talk):** https://claude.ai/artifact/BBffn27Y1PEQHctDxTCxcj  ·  local copy `Attack_Replay_3D.html`
 **Speaker notes:** `Speaker_Notes.txt`
 
