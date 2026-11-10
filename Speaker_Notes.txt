@@ -6,7 +6,8 @@
  Samuel Weiss · LIS4905 DIS · Fall 2026
 ---------------------------------------------------------------------------
  HOW TO USE: one dash = a talking point, say it in your own words.
- Aim ~1.5–2 min per slide. Lines in [BRACKETS] are stage cues, not spoken.
+ 8 slides, aim ~2 min each (~16 min) + questions.
+ Lines in [BRACKETS] are stage cues, not spoken.
  Tip: open the 3D replay full-screen BEFORE you start (have the tab ready).
 ===========================================================================
 
@@ -23,23 +24,7 @@
   watching. The attacker fires, the SIEM catches every packet — build,
   attack, detect."
 ===========================================================================
- 8-SLIDE DECK — which notes to use for each slide
----------------------------------------------------------------------------
- The detailed per-slide notes below were written for the 13-slide deck; the
- 8-slide deck merges some of them. Map each 8-slide to these sections:
-   8-slide 1  Title ................. use SLIDE 1
-   8-slide 2  The big idea .......... use SLIDE 2 (+ one line from SLIDE 3: "8 GB
-              laptop, so no Splunk — native Elastic instead")
-   8-slide 3  How it's wired/sealed . use SLIDE 4 + SLIDE 5 (architecture + why
-              isolation matters)
-   8-slide 4  Recon -> break in ..... use SLIDE 7 + SLIDE 8 (recon stat, then the
-              four ways in)
-   8-slide 5  Proof: root ........... use SLIDE 9
-   8-slide 6  The SIEM sees it all .. use SLIDE 10
-   8-slide 7  Attack -> detection ... use SLIDE 12 + SLIDE 11 (mapping table, then
-              "only lab IPs appeared = isolation proven")
-   8-slide 8  Results & next ........ use SLIDE 13
-===========================================================================
+
 
 SLIDE 1 — TITLE
 - Hi, I'm Sam. This is my directed study project: a virtual security lab.
@@ -48,58 +33,50 @@ SLIDE 1 — TITLE
 - Everything you'll see ran on a single laptop — no cloud, no lab hardware.
 [Optional: cut to the 3D replay for 20–30s as a teaser, then come back.]
 
-SLIDE 2 — THE BIG IDEA
+
+SLIDE 2 — THE BIG IDEA, IN PLAIN TERMS
 - Think of it as three characters: an attacker, a victim, and a watcher.
 - The attacker is Kali Linux — the standard hacker toolkit (the penguin).
 - The victim is a machine left weak on purpose, so it's safe to break.
 - The watcher is a SIEM — it records every packet and shows what happened.
-- And the whole thing is sealed off: nothing can reach the real internet.
+- The whole thing is sealed off: nothing can reach the real internet.
+- One constraint shaped everything: it all runs on an 8 GB Apple-M1 laptop —
+  which is why I use a native Elastic SIEM, not Splunk (no Apple-chip build;
+  emulating the Intel version failed). Realistic: real security work is
+  resource-limited.
 
-SLIDE 3 — THE CHALLENGE
-- The catch: this had to run on an 8 GB Apple M1 laptop.
-- That broke the "normal" path. Splunk — the usual SIEM — has no Apple-chip
-  version, and trying to emulate the Intel version failed.
-- So I made two calls: run a native Elastic SIEM built for Apple chips, and
-  accept that I'd have to engineer around a lot of small roadblocks.
-- Constraints like this are realistic — real security work is resource-limited.
 
-SLIDE 4 — HOW THE LAB IS WIRED
+SLIDE 3 — HOW THE LAB IS WIRED, AND SEALED
 - Two virtual machines on a "host-only" network — a private 192.168.128.x
   network that exists only inside the laptop.
 - Kali is .2, the target is .4, and the SIEM listens on .1 (the Mac itself).
-- Key point: that dashed box has NO door to the internet. Verified, not assumed.
 - Packetbeat mirrors all the traffic into Elastic, so the SIEM sees everything.
+- The most important design decision: that dashed box has NO door to the
+  internet. "No route" = the VMs can only talk to each other and the Mac;
+  traffic aimed at the internet has nowhere to go. Verified, not assumed
+  (curl to the internet fails from Kali).
+- Why it matters: because it's sealed, I can run real exploits with zero risk —
+  the victim can't phone home, spread, or touch the campus network. And I can
+  PROVE it later from the SIEM data.
 
-SLIDE 5 — WHY ISOLATION IS THE POINT
-- This is the single most important design decision.
-- Because it's sealed, I can run real exploits with zero risk.
-- The victim can't phone home, can't spread, can't touch the campus network.
-- And I can PROVE it: later you'll see the SIEM only ever shows lab IP addresses.
 
-SLIDE 6 — MEET THE THREE PLAYERS
-- Kali (attacker): ARM64, I drove it headless over SSH. Tools: nmap, hydra,
-  Metasploit. It also captures its own traffic for the SIEM.
-- Metasploitable2 (target): Ubuntu 8.04 — ancient on purpose — with 23 old,
-  exploitable services. It's a safe punching bag.
-- Elastic + Kibana (SIEM): runs natively on the Mac; dashboards reveal the attack.
-
-SLIDE 7 — STEP 1: RECON
-- First you map the target. nmap "knocks on every door" — all 65,535 ports.
-- It found 23 open, outdated services: old FTP, Samba, an IRC server, even a
-  literal root backdoor sitting on port 1524.
-- The big number: my scan touched 65,596 distinct ports — basically everything.
-- Recon is loud — remember that, because the SIEM is about to light up.
-[If playing the 3D replay: this is the "Recon" phase — the wide spray of packets.]
-
-SLIDE 8 — STEP 2: EXPLOITATION
-- Then I walked through four different ways in, each mapped to MITRE ATT&CK:
+SLIDE 4 — RECON → BREAK IN
+- Step 1 is recon: map the target. nmap "knocks on every door" — all 65,535
+  ports — and found 23 open, outdated services (old FTP, Samba, an IRC server,
+  even a literal root backdoor on port 1524). My scan touched 65,596 distinct
+  ports — basically everything. Recon is LOUD; the SIEM is about to light up.
+- Step 2 is exploitation: four different ways in, each mapped to MITRE ATT&CK:
   1) FTP: hydra guessed the password (weak credentials).
   2) UnrealIRCd: a known backdoor, CVE-2010-2075 — remote shell.
   3) Samba: command injection, CVE-2007-2447 — remote shell, running as root.
   4) Port 1524: an exposed bind shell — instant root, no password at all.
 - Four doors: a weak password, two unpatched services, and a backdoor.
+- Tools in one line: nmap (recon), hydra (brute force), Metasploit (exploits),
+  netcat (direct shell) — all standard, industry pentest tools.
+[If playing the 3D replay: this is the "Recon → Exploit" phase.]
 
-SLIDE 9 — PROOF: WE BECAME ROOT
+
+SLIDE 5 — PROOF: WE BECAME ROOT
 - This is real output from the attack, not a diagram.
 - Top: "uid=0(root)" — that's complete control of the target machine.
   - WHY it means complete control (if asked): uid=0 is "root," the superuser.
@@ -109,28 +86,28 @@ SLIDE 9 — PROOF: WE BECAME ROOT
 - Bottom: hydra cracking the FTP login, msfadmin / msfadmin, in seconds.
 - This is the evidence an industry pentest report would include.
 
-SLIDE 10 — STEP 3: DETECTION
+
+SLIDE 6 — THE SIEM SEES IT ALL
 - Now the defender's side. Packetbeat recorded every packet into the SIEM.
 - Left chart: the port scan shows up as one giant spike — about 65,000 flows.
 - Right chart: roughly 260,000 events captured during the attack window.
 - The attack is impossible to miss once you're watching the network.
 [If playing the 3D replay: this is the "Detect" phase — streams into the eye.]
 
-SLIDE 11 — ISOLATION, PROVEN BY THE DATA
-- Back to isolation — here's the proof I promised.
-- The SIEM's host-to-host table shows only three addresses: .1, .2, .4.
-- There is NO public internet address anywhere in the traffic.
-- So the lab is genuinely sealed — that's a measurable fact, not a claim.
 
-SLIDE 12 — EVERY ATTACK → HOW THE SIEM CAUGHT IT
+SLIDE 7 — EVERY ATTACK → HOW THE SIEM CAUGHT IT
 - This table is the heart of the project: each attack lined up with the exact
   signal that caught it.
 - Port scan → 65,596 ports. FTP brute force → 72 flows to port 21. The three
   exploits → flows to 6667, 445, and 1524, plus the reverse shells.
+- Isolation, proven by the data: the host-to-host table shows only three
+  addresses — .1, .2, .4. No public internet address anywhere. The lab is
+  genuinely sealed — a measurable fact, not a claim.
 - The lesson: preventing attacks is only half the job. DETECTING them is what
   makes this a security lab, not just a hacking exercise.
 
-SLIDE 13 — WHAT IT PROVES & WHAT'S NEXT
+
+SLIDE 8 — WHAT IT PROVES & WHAT'S NEXT
 - Bottom line: a full security loop — build, attack, detect — on one 8 GB laptop.
 - Five real exploits, two of them real-world CVEs, every one captured by the SIEM.
 - The hardest part was the Apple-chip workarounds; documenting those failures
@@ -138,13 +115,17 @@ SLIDE 13 — WHAT IT PROVES & WHAT'S NEXT
 - Next: custom alert rules, richer dashboards, more attack scenarios, final report.
 - Everything — code, evidence, this deck — is on my GitHub. Thank you — questions?
 
+
 ===========================================================================
  Q&A PREP (likely questions)
 ---------------------------------------------------------------------------
 - "Why not Splunk?" No Apple-Silicon build; Intel emulation failed. The proposal
   allowed a tool *like* Splunk, so I used Elastic — same SIEM concept.
 - "Is it really isolated?" Yes — host-only network, no NAT/bridge; the SIEM data
-  shows only lab IPs (slide 11).
+  shows only lab IPs (slide 7).
+- "What does 'no route to the internet' mean?" The VMs have no default gateway, so
+  traffic aimed at the internet has nowhere to go; they can only reach each other
+  and the Mac. Verified: curl to the internet fails from Kali.
 - "Could these attacks hit a real company?" The techniques, yes — that's why they
   map to MITRE ATT&CK. The target is intentionally old; a patched host resists them.
 - "What would you fix on the target?" Remove the bind shell, patch/retire the old
